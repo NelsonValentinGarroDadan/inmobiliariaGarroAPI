@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace inmobiliariaGarroAPI;
+namespace inmobiliariaGarroAPI.Models;
 public class Inquilinos
 {
     [Key]

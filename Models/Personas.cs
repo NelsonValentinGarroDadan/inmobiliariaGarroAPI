@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace inmobiliariaGarroAPI;
+namespace inmobiliariaGarroAPI.Models;
 
 public class Personas
 {
