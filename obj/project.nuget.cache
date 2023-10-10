@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "TGQTxM1oFZjI6kXG7n+dLS5U4hX0eanc4tz2DVaS+s1m12LB8eW1Krx/ML1ikh4uDJgApeOyJdzxKArQ7g2Y8Q==",
+  "dgSpecHash": "T78F+bSUI9KskZTLL5MX0nEq1A0S93aVuFwZgEClH17snrjETuGyVU71A20ue0auEyR2RSoLN2A7CjB5r/hogg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Colo\\OneDrive\\Documentos\\GitHub\\inmobiliariaGarroApp\\inmobiliariaGarroAPI2\\inmobiliariaGarroAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Colo\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.10\\microsoft.aspnetcore.openapi.7.0.10.nupkg.sha512",
-    "C:\\Users\\Colo\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.11\\microsoft.entityframeworkcore.7.0.11.nupkg.sha512",
-    "C:\\Users\\Colo\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.11\\microsoft.entityframeworkcore.abstractions.7.0.11.nupkg.sha512",
-    "C:\\Users\\Colo\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.11\\microsoft.entityframeworkcore.analyzers.7.0.11.nupkg.sha512",
+    "C:\\Users\\Colo\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.12\\microsoft.entityframeworkcore.7.0.12.nupkg.sha512",
+    "C:\\Users\\Colo\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.12\\microsoft.entityframeworkcore.abstractions.7.0.12.nupkg.sha512",
+    "C:\\Users\\Colo\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.12\\microsoft.entityframeworkcore.analyzers.7.0.12.nupkg.sha512",
     "C:\\Users\\Colo\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.2\\microsoft.entityframeworkcore.relational.7.0.2.nupkg.sha512",
     "C:\\Users\\Colo\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\Colo\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
