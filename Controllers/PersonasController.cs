@@ -22,8 +22,15 @@ namespace inmobiliariaGarroAPI;
 		}
 		// GET: api/<controller>
 		[HttpGet]
-		public IActionResult Get()
+		public async Task<IActionResult> Get()
 		{
-             return Ok(contexto.Personas.ToList());
+			try
+			{
+             	return Ok(contexto.Personas.ToList());
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
 		}
 }
