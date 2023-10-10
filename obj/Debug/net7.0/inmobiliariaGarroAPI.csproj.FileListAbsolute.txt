@@ -31,3 +31,8 @@ C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\obj\Debug\net7.0\r
 C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\obj\Debug\net7.0\inmobiliariaGarroAPI.pdb
 C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\obj\Debug\net7.0\inmobiliariaGarroAPI.genruntimeconfig.cache
 C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\obj\Debug\net7.0\ref\inmobiliariaGarroAPI.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\MySqlConnector.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\Pomelo.EntityFrameworkCore.MySql.dll

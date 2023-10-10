@@ -10,5 +10,6 @@ public class Inquilinos
 
     [ForeignKey("PersonaId")]
     public Personas Persona {get; set;}
-    public string Direccion {get; set;}
+    public string Longitud {get; set;}
+    public string Latitud {get; set;}
 }

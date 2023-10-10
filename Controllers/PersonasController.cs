@@ -18,21 +18,12 @@ namespace inmobiliariaGarroAPI;
 		{
 			this.contexto = contexto;
 			this.config = config;
-			environment = env;
+			this.environment = env;
 		}
 		// GET: api/<controller>
 		[HttpGet]
-		public IEnumerable<Personas> Get()
+		public IActionResult Get()
 		{
-			try
-			{
-                return contexto.Personas.ToList();
-			}
-			catch (Exception ex)
-			{
-                var list = new List<Personas>();
-                list.Add(new Personas());
-				return list;
-			}
+             return Ok(contexto.Personas.ToList());
 		}
 }
