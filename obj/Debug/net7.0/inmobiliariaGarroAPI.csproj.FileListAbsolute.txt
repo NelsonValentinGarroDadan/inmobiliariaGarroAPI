@@ -74,3 +74,10 @@ C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroApp\inmobiliariaGarroA
 C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroApp\inmobiliariaGarroAPI2\obj\Debug\net7.0\inmobiliariaGarroAPI.pdb
 C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroApp\inmobiliariaGarroAPI2\obj\Debug\net7.0\inmobiliariaGarroAPI.genruntimeconfig.cache
 C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroApp\inmobiliariaGarroAPI2\obj\Debug\net7.0\ref\inmobiliariaGarroAPI.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Colo\OneDrive\Documentos\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
