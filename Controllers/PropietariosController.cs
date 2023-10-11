@@ -1,6 +1,10 @@
 using System.Collections;
+using System.Security.Claims;
 using inmobiliariaGarroAPI.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,20 +12,20 @@ namespace inmobiliariaGarroAPI;
 
 	[Route("api/[controller]")]
 	[ApiController]
-	public class PropietarioController : ControllerBase
+	public class PropietariosController : ControllerBase
 	{
 		private readonly DataContext contexto;
 		private readonly IConfiguration config;
 		private readonly IWebHostEnvironment environment;
 
-		public PersonasController(DataContext contexto, IConfiguration config, IWebHostEnvironment env)
+		public PropietariosController(DataContext contexto, IConfiguration config, IWebHostEnvironment env)
 		{
 			this.contexto = contexto;
 			this.config = config;
 			this.environment = env;
 		}
 		// GET: api/<controller>
-		[HttpGet]
+		[HttpGet("obtenerTodos")]
 		public async Task<IActionResult> Get()
 		{
 			try
@@ -34,15 +38,15 @@ namespace inmobiliariaGarroAPI;
 			}
 		}
 		// GET: api/<controller>
-		 [HttpGet("{id}")]
+		 [HttpGet("obtenerXId/{id}")]
 		public async Task<IActionResult> Get(int id)
 		{
 			try
 			{
 				
 				var propietario = contexto.Propietarios.FirstOrDefault(p => p.Id == id);
-				if(persona == null) return NotFound();
-             	return Ok(persona);
+				if(propietario == null) return NotFound();
+             	return Ok(propietario);
 			}
 			catch (Exception ex)
 			{
@@ -51,7 +55,7 @@ namespace inmobiliariaGarroAPI;
 		}
 		//Alta
 		// POST: api/<controller>
-		 [HttpPost]
+		 [HttpPost("create")]
 		public async Task<IActionResult> Post([FromForm] Propietarios propietario)
 		{
 			try
@@ -75,18 +79,17 @@ namespace inmobiliariaGarroAPI;
 		}
 		//Update
 		// PUT: api/<controller>
-		 [HttpPut("{Id}")]
+		 [HttpPut("update/{Id}")]
 		public async Task<IActionResult> Post(int Id ,[FromForm] Propietarios propietario)
 		{
 			try
 			{
 				var p = contexto.Propietarios.FirstOrDefault(p => p.Id == Id);
 				if(p == null) return NotFound();
-				p.PersonaId = propietario.PersonaId;
 				p.Mail = propietario.Mail;
 				contexto.Update(p);
 				await contexto.SaveChangesAsync();
-				return CreatedAtAction("Get", new { id = persona.Id }, p);
+				return CreatedAtAction("Get", new { id = propietario.Id }, p);
 			}
 			catch (Exception ex)
 			{
@@ -95,7 +98,7 @@ namespace inmobiliariaGarroAPI;
 		}
 		//Cambio de Contraseña
 		// PUT: api/<controller>
-		 [HttpPut("{Id}")]
+		 [HttpPut("cambiarContraseña/{Id}")]
 		public async Task<IActionResult> Post(int Id ,[FromForm] string nuevaClave )
 		{
 			try
@@ -104,7 +107,7 @@ namespace inmobiliariaGarroAPI;
 				if(p == null) return NotFound();
 				string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                         password: nuevaClave,
-                        salt: System.Text.Encoding.ASCII.GetBytes(configuration["Salt"]),
+                        salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
                         prf: KeyDerivationPrf.HMACSHA1,
                         iterationCount: 1000,
                         numBytesRequested: 250 / 8
@@ -112,7 +115,7 @@ namespace inmobiliariaGarroAPI;
 				p.Password = hashed;
 				contexto.Update(p);
 				await contexto.SaveChangesAsync();
-				return CreatedAtAction("Get", new { id = persona.Id }, p);
+				return CreatedAtAction("Get", new { id = p.Id }, p);
 			}
 			catch (Exception ex)
 			{
@@ -121,14 +124,14 @@ namespace inmobiliariaGarroAPI;
 		}
 		// DELETE: api/<controller>
 		// POST: api/<controller>
-		 [HttpDelete("{Id}")]
+		 [HttpDelete("delete/{Id}")]
 		public async Task<IActionResult> Post(int Id)
 		{
 			try
 			{
-				var p = contexto.Propietario.FirstOrDefault(p => p.Id == Id);
+				var p = contexto.Propietarios.FirstOrDefault(p => p.Id == Id);
 				if(p == null) return NotFound();
-				contexto.Personas.Remove(p);
+				contexto.Propietarios.Remove(p);
 				await contexto.SaveChangesAsync();
 				return NoContent();
 			}
@@ -139,12 +142,12 @@ namespace inmobiliariaGarroAPI;
 		}
 		// POST: api/<controller>
 		//Login
-		 [HttpPost]
+		 [HttpPost("login")]
 		public async Task<IActionResult> Login([FromForm] string Mail,[FromForm] string Password)
 		{
 			try
 			{
-				var p = contexto.Propietario.FirstOrDefault(p => p.Mail == Mail);
+				var p = contexto.Propietarios.FirstOrDefault(p => p.Mail == Mail);
 				if(p == null) return NotFound();
 				string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                         password: Password,
@@ -168,7 +171,7 @@ namespace inmobiliariaGarroAPI;
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimIdentity)
                 );
-
+				//retornar el JWT
 				return CreatedAtAction("Get", new { id = p.Id }, p);
 			}
 			catch (Exception ex)
@@ -178,7 +181,7 @@ namespace inmobiliariaGarroAPI;
 		}
 		// POST: api/<controller>
 		//Logout
-		[HttpPost]
+		[HttpPost("logout")]
 		public async Task<IActionResult> Logout()
 		{
 			try
