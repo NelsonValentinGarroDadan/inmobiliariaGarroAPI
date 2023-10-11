@@ -133,15 +133,18 @@ namespace inmobiliariaGarroAPI;
 		// PUT: api/<controller>
 		 [HttpPut("update")]
 		 
-		public async Task<IActionResult> update([FromForm] string Mail)
+		public async Task<IActionResult> update([FromForm] Propietarios propietario)
 		{
 			try
 			{
-				if(Mail == "") return BadRequest("El Mail no puede ser vacio");
 				var usuario = User.Identity.Name;
 				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Id+"" == usuario);
 				if(p == null) return NotFound();
-				p.Mail = Mail;
+				p.Mail = propietario.Mail;
+				p.Persona.Nombre = propietario.Persona.Nombre;
+				p.Persona.Apellido = propietario.Persona.Apellido;
+				p.Persona.Telefono = propietario.Persona.Telefono;
+				p.Persona.DNI = propietario.Persona.DNI;
 				contexto.Update(p);
 				await contexto.SaveChangesAsync();
 				return CreatedAtAction("perfil", new { id = p.Id }, p);
@@ -153,7 +156,7 @@ namespace inmobiliariaGarroAPI;
 		}
 		//Cambio de Contraseña
 		// PUT: api/<controller>
-		 [HttpPut("cambiarContraseña/{Id}")]
+		 [HttpPut("cambiarContraseña")]
 		public async Task<IActionResult> cambiarContraseña([FromForm] string nuevaClave )
 		{
 			try
