@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "T78F+bSUI9KskZTLL5MX0nEq1A0S93aVuFwZgEClH17snrjETuGyVU71A20ue0auEyR2RSoLN2A7CjB5r/hogg==",
+  "dgSpecHash": "huPc3PSWLLKFdTmgM9uTs2AuPzfvXrqmRMBWhzme43/ppxpjqCQ2bzP+lUpS66W+GgAsA3h5Y2V1iG28+YDCkw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Colo\\OneDrive\\Documentos\\GitHub\\inmobiliariaGarroApp\\inmobiliariaGarroAPI2\\inmobiliariaGarroAPI.csproj",
+  "projectFilePath": "C:\\Users\\Colo\\OneDrive\\Documentos\\GitHub\\inmobiliariaGarroAPI\\inmobiliariaGarroAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Colo\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.10\\microsoft.aspnetcore.openapi.7.0.10.nupkg.sha512",
     "C:\\Users\\Colo\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.12\\microsoft.entityframeworkcore.7.0.12.nupkg.sha512",

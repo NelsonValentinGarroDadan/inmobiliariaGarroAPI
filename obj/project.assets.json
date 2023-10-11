@@ -1133,11 +1133,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Colo\\OneDrive\\Documentos\\GitHub\\inmobiliariaGarroApp\\inmobiliariaGarroAPI2\\inmobiliariaGarroAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Colo\\OneDrive\\Documentos\\GitHub\\inmobiliariaGarroAPI\\inmobiliariaGarroAPI.csproj",
       "projectName": "inmobiliariaGarroAPI",
-      "projectPath": "C:\\Users\\Colo\\OneDrive\\Documentos\\GitHub\\inmobiliariaGarroApp\\inmobiliariaGarroAPI2\\inmobiliariaGarroAPI.csproj",
+      "projectPath": "C:\\Users\\Colo\\OneDrive\\Documentos\\GitHub\\inmobiliariaGarroAPI\\inmobiliariaGarroAPI.csproj",
       "packagesPath": "C:\\Users\\Colo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Colo\\OneDrive\\Documentos\\GitHub\\inmobiliariaGarroApp\\inmobiliariaGarroAPI2\\obj\\",
+      "outputPath": "C:\\Users\\Colo\\OneDrive\\Documentos\\GitHub\\inmobiliariaGarroAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Colo\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -30,7 +30,7 @@ namespace inmobiliariaGarroAPI;
 		{
 			try
 			{
-             	return Ok(contexto.Propietarios.ToList());
+             	return Ok(contexto.Propietarios.Include(p => p.Persona).ToList());
 			}
 			catch (Exception ex)
 			{
@@ -39,12 +39,12 @@ namespace inmobiliariaGarroAPI;
 		}
 		// GET: api/<controller>
 		 [HttpGet("obtenerXId/{id}")]
-		public async Task<IActionResult> Get(int id)
+		public async Task<IActionResult> obtenerXId(int id)
 		{
 			try
 			{
 				
-				var propietario = contexto.Propietarios.FirstOrDefault(p => p.Id == id);
+				var propietario = contexto.Propietarios.Include(p => p.Persona).FirstOrDefault(p => p.Id == id);
 				if(propietario == null) return NotFound();
              	return Ok(propietario);
 			}
@@ -56,21 +56,34 @@ namespace inmobiliariaGarroAPI;
 		//Alta
 		// POST: api/<controller>
 		 [HttpPost("create")]
-		public async Task<IActionResult> Post([FromForm] Propietarios propietario)
+		public async Task<IActionResult> Post([FromForm] int PersonaId, [FromForm] string Mail, [FromForm] string Password)
 		{
 			try
 			{
 				string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                        password: propietario.Password,
+                        password: Password,
                         salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
                         prf: KeyDerivationPrf.HMACSHA1,
                         iterationCount: 1000,
                         numBytesRequested: 250 / 8
                     ));
-				propietario.Password = hashed;
+				var propietario = new Propietarios
+				{
+					PersonaId = PersonaId,
+					Mail = Mail,
+					Password = hashed
+				};
 				contexto.Propietarios.Add(propietario);
 				await contexto.SaveChangesAsync();
-				return CreatedAtAction("Get", new { id = propietario.Id }, propietario);
+				var p = contexto.Propietarios
+					.Include(prop => prop.Persona)
+					.FirstOrDefault(p => p.Id == propietario.Id);
+
+				if (p == null)
+				{
+					return NotFound();
+				}
+				return CreatedAtAction("obtenerXId", new { id = p.Id },p);
 			}
 			catch (Exception ex)
 			{
@@ -80,16 +93,16 @@ namespace inmobiliariaGarroAPI;
 		//Update
 		// PUT: api/<controller>
 		 [HttpPut("update/{Id}")]
-		public async Task<IActionResult> Post(int Id ,[FromForm] Propietarios propietario)
+		public async Task<IActionResult> update(int Id ,[FromForm] string Mail)
 		{
 			try
 			{
-				var p = contexto.Propietarios.FirstOrDefault(p => p.Id == Id);
+				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Id == Id);
 				if(p == null) return NotFound();
-				p.Mail = propietario.Mail;
+				p.Mail = Mail;
 				contexto.Update(p);
 				await contexto.SaveChangesAsync();
-				return CreatedAtAction("Get", new { id = propietario.Id }, p);
+				return CreatedAtAction("obtenerXId", new { id = p.Id }, p);
 			}
 			catch (Exception ex)
 			{
@@ -99,11 +112,11 @@ namespace inmobiliariaGarroAPI;
 		//Cambio de Contraseña
 		// PUT: api/<controller>
 		 [HttpPut("cambiarContraseña/{Id}")]
-		public async Task<IActionResult> Post(int Id ,[FromForm] string nuevaClave )
+		public async Task<IActionResult> cambiarContraseña(int Id ,[FromForm] string nuevaClave )
 		{
 			try
 			{
-				var p = contexto.Propietarios.FirstOrDefault(p => p.Id == Id);
+				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Id == Id);
 				if(p == null) return NotFound();
 				string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                         password: nuevaClave,
@@ -115,7 +128,7 @@ namespace inmobiliariaGarroAPI;
 				p.Password = hashed;
 				contexto.Update(p);
 				await contexto.SaveChangesAsync();
-				return CreatedAtAction("Get", new { id = p.Id }, p);
+				return CreatedAtAction("obtenerXId", new { id = p.Id }, p);
 			}
 			catch (Exception ex)
 			{
@@ -129,7 +142,7 @@ namespace inmobiliariaGarroAPI;
 		{
 			try
 			{
-				var p = contexto.Propietarios.FirstOrDefault(p => p.Id == Id);
+				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Id == Id);
 				if(p == null) return NotFound();
 				contexto.Propietarios.Remove(p);
 				await contexto.SaveChangesAsync();
@@ -147,7 +160,7 @@ namespace inmobiliariaGarroAPI;
 		{
 			try
 			{
-				var p = contexto.Propietarios.FirstOrDefault(p => p.Mail == Mail);
+				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Mail == Mail);
 				if(p == null) return NotFound();
 				string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                         password: Password,
@@ -172,7 +185,7 @@ namespace inmobiliariaGarroAPI;
                     new ClaimsPrincipal(claimIdentity)
                 );
 				//retornar el JWT
-				return CreatedAtAction("Get", new { id = p.Id }, p);
+				return Ok("Logueado");
 			}
 			catch (Exception ex)
 			{
