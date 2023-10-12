@@ -21,12 +21,21 @@ namespace inmobiliariaGarroAPI;
 			this.environment = env;
 		}
 		// GET: api/<controller>
-		[HttpGet]
-		public async Task<IActionResult> Get()
+		[HttpGet("obtenerTodos")]
+		public async Task<IActionResult> ObtenerTodos()
 		{
 			try
 			{
-             	return Ok(contexto.Personas.ToList());
+             	return Ok(contexto.Personas
+				.Select(i => new
+					{
+						Id = i.Id,
+						DNI = i.DNI,
+						Nombre = i.Nombre,
+						Apellido = i.Apellido
+					} 
+				)
+				.ToList());
 			}
 			catch (Exception ex)
 			{
@@ -34,13 +43,23 @@ namespace inmobiliariaGarroAPI;
 			}
 		}
 		// GET: api/<controller>
-		 [HttpGet("{id}")]
-		public async Task<IActionResult> Get(int id)
+		 [HttpGet("obtenerXId/{id}")]
+		public async Task<IActionResult> ObtenerXId(int id)
 		{
 			try
 			{
 				
-				var persona = contexto.Personas.FirstOrDefault(p => p.Id == id);
+				var persona = contexto.Personas
+				.Where(p => p.Id == id)
+				.Select(i => new
+					{
+						Id = i.Id,
+						DNI = i.DNI,
+						Nombre = i.Nombre,
+						Apellido = i.Apellido
+					} 
+				)
+				.FirstOrDefault();
 				if(persona == null) return NotFound();
              	return Ok(persona);
 			}
@@ -50,15 +69,15 @@ namespace inmobiliariaGarroAPI;
 			}
 		}
 		// POST: api/<controller>
-		 [HttpPost]
-		public async Task<IActionResult> Post([FromForm] Personas persona)
+		 [HttpPost("create")]
+		public async Task<IActionResult> Create([FromForm] Personas persona)
 		{
 			try
 			{
 				
 				contexto.Personas.Add(persona);
 				await contexto.SaveChangesAsync();
-				return CreatedAtAction("Get", new { id = persona.Id }, persona);
+				return CreatedAtAction("ObtenerXId", new { id = persona.Id }, persona);
 			}
 			catch (Exception ex)
 			{
@@ -66,8 +85,8 @@ namespace inmobiliariaGarroAPI;
 			}
 		}
 		// PUT: api/<controller>
-		 [HttpPut("{Id}")]
-		public async Task<IActionResult> Post(int Id ,[FromForm] Personas persona)
+		 [HttpPut("update/{Id}")]
+		public async Task<IActionResult> Update(int Id ,[FromForm] Personas persona)
 		{
 			try
 			{
@@ -79,7 +98,7 @@ namespace inmobiliariaGarroAPI;
 				p.Telefono = persona.Telefono;
 				contexto.Update(p);
 				await contexto.SaveChangesAsync();
-				return CreatedAtAction("Get", new { id = persona.Id }, p);
+				return CreatedAtAction("ObtenerXId", new { id = persona.Id }, p);
 			}
 			catch (Exception ex)
 			{
@@ -87,8 +106,8 @@ namespace inmobiliariaGarroAPI;
 			}
 		}
 		// DELETE: api/<controller>
-		 [HttpDelete("{Id}")]
-		public async Task<IActionResult> Post(int Id)
+		 [HttpDelete("delete/{Id}")]
+		public async Task<IActionResult> Delete(int Id)
 		{
 			try
 			{

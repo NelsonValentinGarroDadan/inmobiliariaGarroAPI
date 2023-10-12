@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 namespace inmobiliariaGarroAPI;
 
 	[Route("api/[controller]")]
-	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[ApiController]
 	public class PropietariosController : ControllerBase
 	{
@@ -27,10 +27,9 @@ namespace inmobiliariaGarroAPI;
 			this.config = config;
 			this.environment = env;
 		}
-		/* Practica entity
 		// GET: api/<controller>
 		[HttpGet("obtenerTodos")]
-		public async Task<IActionResult> Get()
+		public async Task<IActionResult> ObtenerTodos()
 		{
 			try
 			{
@@ -43,7 +42,7 @@ namespace inmobiliariaGarroAPI;
 		}
 		// GET: api/<controller>
 		 [HttpGet("obtenerXId/{id}")]
-		public async Task<IActionResult> obtenerXId(int id)
+		public async Task<IActionResult> ObtenerXId(int id)
 		{
 			try
 			{
@@ -60,7 +59,7 @@ namespace inmobiliariaGarroAPI;
 		//Alta
 		// POST: api/<controller>
 		 [HttpPost("create")]
-		public async Task<IActionResult> Post([FromForm] int PersonaId, [FromForm] string Mail, [FromForm] string Password)
+		public async Task<IActionResult> Create([FromForm] int PersonaId, [FromForm] string Mail, [FromForm] string Password)
 		{
 			try
 			{
@@ -97,7 +96,7 @@ namespace inmobiliariaGarroAPI;
 		// DELETE: api/<controller>
 		// POST: api/<controller>
 		 [HttpDelete("delete/{Id}")]
-		public async Task<IActionResult> Post(int Id)
+		public async Task<IActionResult> Delete(int Id)
 		{
 			try
 			{
@@ -111,11 +110,11 @@ namespace inmobiliariaGarroAPI;
 			{
 				return BadRequest(ex.Message);
 			}
-		}*/
+		}
 		//Obtener Logeado
 		// GET: api/<controller>
 		[HttpGet("perfil")]
-		public async Task<IActionResult> perfil()
+		public async Task<IActionResult> Perfil()
 		{
 			try
 			{
@@ -133,7 +132,7 @@ namespace inmobiliariaGarroAPI;
 		// PUT: api/<controller>
 		 [HttpPut("update")]
 		 
-		public async Task<IActionResult> update([FromForm] Propietarios propietario)
+		public async Task<IActionResult> Update([FromForm] Propietarios propietario)
 		{
 			try
 			{
@@ -157,7 +156,7 @@ namespace inmobiliariaGarroAPI;
 		//Cambio de Contraseña
 		// PUT: api/<controller>
 		 [HttpPut("cambiarContraseña")]
-		public async Task<IActionResult> cambiarContraseña([FromForm] string nuevaClave )
+		public async Task<IActionResult> CambiarContraseña([FromForm] string nuevaClave )
 		{
 			try
 			{

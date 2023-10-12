@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 namespace inmobiliariaGarroAPI;
 
 	[Route("api/[controller]")]
-	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[ApiController]
 	public class InquilinosController : ControllerBase
 	{
@@ -30,7 +30,7 @@ namespace inmobiliariaGarroAPI;
 
         // GET: api/<controller>
 		[HttpGet("obtenerTodos")]
-		public async Task<IActionResult> obtenerTodos()
+		public async Task<IActionResult> ObtenerTodos()
 		{
 			try
 			{
@@ -44,7 +44,7 @@ namespace inmobiliariaGarroAPI;
 
         // GET: api/<controller>
 		 [HttpGet("obtenerXId/{id}")]
-		public async Task<IActionResult> obtenerXId(int id)
+		public async Task<IActionResult> ObtenerXId(int id)
 		{
 			try
 			{
