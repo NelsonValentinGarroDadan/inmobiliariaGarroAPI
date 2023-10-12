@@ -100,7 +100,7 @@ namespace inmobiliariaGarroAPI;
 		{
 			try
 			{
-				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Id == Id);
+				var p = contexto.Propietarios.FirstOrDefault(p => p.Id == Id);
 				if(p == null) return NotFound();
 				contexto.Propietarios.Remove(p);
 				await contexto.SaveChangesAsync();

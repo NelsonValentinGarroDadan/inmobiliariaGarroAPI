@@ -43,6 +43,7 @@ namespace inmobiliariaGarroAPI;
 					Tipo = i.Tipo,
 					Uso = i.Uso,
 					Disponible = i.Disponible,
+					Precio = i.Precio,
 					Propietario = new
 					{
 						Id = i.Propietario.Id,
@@ -64,17 +65,18 @@ namespace inmobiliariaGarroAPI;
 		{
 			try
 			{
-				Console.WriteLine("Hola");
 				var inmueble = contexto.Inmuebles
 					.Where(i => i.Id == id)
 					.Select(i => new
 					{
+						Id = i.Id,
 						Longitud = i.Longitud,
 						Latitud = i.Latitud,
 						CantidadAmbientes = i.CAmbientes,
 						Tipo = i.Tipo,
 						Uso = i.Uso,
 						Disponible = i.Disponible,
+						Precio = i.Precio,
 						Propietario = new
 						{
 							Id = i.Propietario.Id,
@@ -87,20 +89,22 @@ namespace inmobiliariaGarroAPI;
 				if (inmueble == null) return NotFound();
         		return Ok(new
 					{
+						Id = inmueble.Id,
 						Longitud = inmueble.Longitud,
 						Latitud = inmueble.Latitud,
-						CantidadAmbientes = inmueble.CAmbientes,
+						CantidadAmbientes = inmueble.CantidadAmbientes,
 						Tipo = inmueble.Tipo,
 						Uso = inmueble.Uso,
 						Disponible = inmueble.Disponible,
 						Propietario = new
 						{
 							Id = inmueble.Propietario.Id,
-							Nombre = inmueble.Propietario.Persona.Nombre,
-							Apellido = inmueble.Propietario.Persona.Apellido
+							Nombre = inmueble.Propietario.Nombre,
+							Apellido = inmueble.Propietario.Apellido
 						}
 					}
 				);
+			}
 			catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
@@ -108,7 +112,7 @@ namespace inmobiliariaGarroAPI;
 		}
 		 // GET: api/<controller>
 		 [HttpGet("obtenerXPerfil")]
-		public async Task<IActionResult> obtenerXPerfil()
+		public async Task<IActionResult> ObtenerXPerfil()
 		{
 			try
 			{
@@ -119,12 +123,14 @@ namespace inmobiliariaGarroAPI;
 					.Where(i => i.PropietarioId == propietario.Id)
 					.Select(i => new
 					{
+						Id = i.Id,
 						Longitud = i.Longitud,
 						Latitud = i.Latitud,
 						CantidadAmbientes = i.CAmbientes,
 						Tipo = i.Tipo,
 						Uso = i.Uso,
-						Disponible = i.Disponible
+						Disponible = i.Disponible,
+						Precio = i.Precio
 					})
 					.ToList()
 				);
@@ -170,6 +176,77 @@ namespace inmobiliariaGarroAPI;
 					return NotFound();
 				}
 				return CreatedAtAction("ObtenerXId", new { id = i.Id },i);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+		// PUT: api/<controller>
+		 [HttpPut("update")]
+		 
+		public async Task<IActionResult> Update([FromForm] int Id,
+												[FromForm] string Longitud , 
+												[FromForm] string Latitud ,
+												[FromForm] int CAmbientes ,
+												[FromForm] string Tipo ,
+												[FromForm] string Uso ,
+												[FromForm] decimal Precio )
+		{
+			try
+			{
+				var i = contexto.Inmuebles.FirstOrDefault(i => i.Id == Id);
+				if(i == null) return NotFound();
+
+				i.Longitud = Longitud;
+				i.Latitud = Latitud;
+				i.CAmbientes = CAmbientes;
+				i.Tipo = Tipo;
+				i.Uso = Uso;
+				i.Precio = Precio;
+				
+
+				contexto.Update(i);
+				await contexto.SaveChangesAsync();
+				return CreatedAtAction("obtenerXId", new { id = i.Id }, i);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+		// PUT: api/<controller>
+		 [HttpPut("cambiarDisponibilidad")]
+		 
+		public async Task<IActionResult> CambiarDisponibilidad([FromForm] int Id,[FromForm] bool estado)
+		{
+			try
+			{
+				var i = contexto.Inmuebles.FirstOrDefault(inm => inm.Id == Id);
+				if(i == null) return NotFound();
+				i.Disponible = estado;
+
+				contexto.Update(i);
+				await contexto.SaveChangesAsync();
+				return CreatedAtAction("obtenerXId", new { id = i.Id }, i);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+		// DELETE: api/<controller>
+		// POST: api/<controller>
+		 [HttpDelete("delete/{Id}")]
+		public async Task<IActionResult> Delete(int Id)
+		{
+			try
+			{
+				var i = contexto.Inmuebles.FirstOrDefault(inm => inm.Id == Id);
+				if(i == null) return NotFound();
+				contexto.Inmuebles.Remove(i);
+				await contexto.SaveChangesAsync();
+				return NoContent();
 			}
 			catch (Exception ex)
 			{
