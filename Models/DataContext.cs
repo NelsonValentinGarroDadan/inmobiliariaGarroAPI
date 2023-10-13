@@ -17,5 +17,7 @@ namespace inmobiliariaGarroAPI.Models
 		public DbSet<Inmuebles> Inmuebles { get; set; }
 
 		public DbSet<Personas> Personas { get; set; }
+		public DbSet<Alquileres> Alquileres { get; set; }
+		public DbSet<Pagos> Pagos { get; set; }
 	}
 }

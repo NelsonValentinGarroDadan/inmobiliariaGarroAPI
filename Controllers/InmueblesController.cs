@@ -117,10 +117,9 @@ namespace inmobiliariaGarroAPI;
 			try
 			{
 				var usuario = User.Identity.Name;
-				var propietario = contexto.Propietarios.Include(p => p.Persona).FirstOrDefault(p => p.Id+"" == usuario);
 				return Ok(
 					contexto.Inmuebles
-					.Where(i => i.PropietarioId == propietario.Id)
+					.Where(i => i.PropietarioId+"" == usuario)
 					.Select(i => new
 					{
 						Id = i.Id,

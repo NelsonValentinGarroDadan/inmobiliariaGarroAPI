@@ -12,7 +12,7 @@ public class Alquileres
     public int InquilinoId {get; set;}
 
     [ForeignKey("InquilinoId")] 
-    public Inquilinos inquilino {get; set;}
+    public Inquilinos Inquilino {get; set;}
     public int InmuebleId {get; set;}
 
     [ForeignKey("InmuebleId")] 
