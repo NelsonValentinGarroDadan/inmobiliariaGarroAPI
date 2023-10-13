@@ -83,27 +83,10 @@ namespace inmobiliariaGarroAPI;
 							Nombre = i.Propietario.Persona.Nombre,
 							Apellido = i.Propietario.Persona.Apellido
 						} 
-					})
-					.FirstOrDefault();
+					});
 
 				if (inmueble == null) return NotFound();
-        		return Ok(new
-					{
-						Id = inmueble.Id,
-						Longitud = inmueble.Longitud,
-						Latitud = inmueble.Latitud,
-						CantidadAmbientes = inmueble.CantidadAmbientes,
-						Tipo = inmueble.Tipo,
-						Uso = inmueble.Uso,
-						Disponible = inmueble.Disponible,
-						Propietario = new
-						{
-							Id = inmueble.Propietario.Id,
-							Nombre = inmueble.Propietario.Nombre,
-							Apellido = inmueble.Propietario.Apellido
-						}
-					}
-				);
+        		return Ok(inmueble);
 			}
 			catch (Exception ex)
 			{
@@ -117,8 +100,7 @@ namespace inmobiliariaGarroAPI;
 			try
 			{
 				var usuario = User.Identity.Name;
-				return Ok(
-					contexto.Inmuebles
+				var alquileres = contexto.Inmuebles
 					.Where(i => i.PropietarioId+"" == usuario)
 					.Select(i => new
 					{
@@ -131,8 +113,9 @@ namespace inmobiliariaGarroAPI;
 						Disponible = i.Disponible,
 						Precio = i.Precio
 					})
-					.ToList()
-				);
+					.ToList();
+				if(alquileres == null) return NotFound();
+				return Ok(alquileres);
 			}
 			catch (Exception ex)
 			{
@@ -167,8 +150,17 @@ namespace inmobiliariaGarroAPI;
 				contexto.Inmuebles.Add(inmueble);
 				await contexto.SaveChangesAsync();
 				var i = contexto.Inmuebles
-					.Include(inm => inm.Propietario)
-						.ThenInclude(p => p.Persona)
+					.Select(i => new
+					{
+						Id = i.Id,
+						Longitud = i.Longitud,
+						Latitud = i.Latitud,
+						CantidadAmbientes = i.CAmbientes,
+						Tipo = i.Tipo,
+						Uso = i.Uso,
+						Disponible = i.Disponible,
+						Precio = i.Precio
+					})
 					.FirstOrDefault(inm => inm.Id == inmueble.Id);
 				if (i == null)
 				{

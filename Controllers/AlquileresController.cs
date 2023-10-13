@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 namespace inmobiliariaGarroAPI;
 
 	[Route("api/[controller]")]
-	//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[ApiController]
 	public class AlquileresController : ControllerBase
 	{
@@ -71,9 +71,58 @@ namespace inmobiliariaGarroAPI;
 		{
 			try
 			{
+                var alquiler = contexto.Alquileres
+                    .Where(i => i.Id == id)
+                    .Include(a => a.Inquilino)
+                        .ThenInclude(i => i.Persona)
+                    .Include(a => a.Inmueble)
+                        .ThenInclude(i => i.Propietario)
+                        .ThenInclude(p => p.Persona)
+                    .Select(a => new
+                    {
+                        Id = a.Id,
+                        Precio = a.Precio,
+                        Fecha_Inicio = a.Fecha_Inicio,
+                        Fecha_Fin  = a.Fecha_Fin ,
+                        Inquilino = new {
+                                        Id= a.Inquilino.Id ,
+                                        Nombre = a.Inquilino.Persona.Nombre ,
+                                        Apellido = a.Inquilino.Persona.Apellido
+                                        },
+                        Inmueble = new { 
+                                        Id = a.Inmueble.Id,
+                                        Direccion = a.Inmueble.Longitud+" "+a.Inmueble.Latitud,
+                                        Propietario = new {
+                                                        Id = a.Inmueble.Propietario.Id,
+                                                        Nombre = a.Inmueble.Propietario.Persona.Nombre ,
+                                                        Apellido = a.Inmueble.Propietario.Persona.Apellido
+                                                        }
+                                        }
+                    });
+
+                if(alquiler == null) return NotFound();
+                return Ok(alquiler);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+        // GET: api/<controller>
+		 [HttpGet("obtenerXPerfil")]
+		public async Task<IActionResult> ObtenerXPerfil()
+		{
+			try
+			{
+                var usuario = User.Identity.Name;
                 return Ok(
                     contexto.Alquileres
-                    .Where(i => i.Id == id)
+                    .Include(a => a.Inquilino)
+                        .ThenInclude(i => i.Persona)
+                    .Include(a => a.Inmueble)
+                        .ThenInclude(i => i.Propietario)
+                        .ThenInclude(p => p.Persona)
+                    .Where(i => i.Inmueble.PropietarioId+"" == usuario)
                     .Select(a => new
                     {
                         Id = a.Id,
@@ -103,16 +152,34 @@ namespace inmobiliariaGarroAPI;
 				return BadRequest(ex.Message);
 			}
 		}
-        // GET: api/<controller>
-		 [HttpGet("obtenerXPerfil")]
-		public async Task<IActionResult> ObtenerXPerfil()
+
+         //Alta
+		// POST: api/<controller>
+		 [HttpPost("create")]
+		public async Task<IActionResult> Create([FromForm] decimal Precio ,
+                                                [FromForm] DateTime Fecha_Inicio ,
+                                                [FromForm] DateTime Fecha_Fin ,
+                                                [FromForm] int InquilinoId ,
+                                                [FromForm] int InmuebleId )
 		{
 			try
 			{
-                var usuario = User.Identity.Name;
-                return Ok(
-                    contexto.Alquileres
-                    .Where(i => i.Inmueble.PropietarioId+"" == usuario)
+				var alquiler = new Alquileres
+				{
+                    Precio = Precio ,
+                    Fecha_Inicio = Fecha_Inicio ,
+                    Fecha_Fin = Fecha_Fin ,
+                    InquilinoId = InquilinoId ,
+                    InmuebleId = InmuebleId
+				};
+				contexto.Alquileres.Add(alquiler);
+				await contexto.SaveChangesAsync();
+				var a = contexto.Alquileres
+                    .Include(a => a.Inquilino)
+                        .ThenInclude(i => i.Persona)
+                    .Include(a => a.Inmueble)
+                        .ThenInclude(i => i.Propietario)
+                        .ThenInclude(p => p.Persona)
                     .Select(a => new
                     {
                         Id = a.Id,
@@ -134,8 +201,30 @@ namespace inmobiliariaGarroAPI;
                                                         }
                                         }
                     })
-                    .ToList()
-                );
+					.FirstOrDefault(inm => inm.Id == alquiler.Id);
+				if (a == null)
+				{
+					return NotFound();
+				}
+				return CreatedAtAction("ObtenerXId", new { id = a.Id },a);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+        // DELETE: api/<controller>
+		// POST: api/<controller>
+		 [HttpDelete("delete/{Id}")]
+		public async Task<IActionResult> Delete(int Id)
+		{
+			try
+			{
+				var a = contexto.Alquileres.FirstOrDefault(i => i.Id == Id);
+				if(a == null) return NotFound();
+				contexto.Alquileres.Remove(a);
+				await contexto.SaveChangesAsync();
+				return NoContent();
 			}
 			catch (Exception ex)
 			{
