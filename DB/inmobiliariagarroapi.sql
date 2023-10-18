@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-10-2023 a las 15:32:58
+-- Tiempo de generación: 18-10-2023 a las 19:27:21
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -36,6 +36,22 @@ CREATE TABLE `alquileres` (
   `InmuebleId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `alquileres`
+--
+
+INSERT INTO `alquileres` (`Id`, `Precio`, `Fecha_Inicio`, `Fecha_Fin`, `InquilinoId`, `InmuebleId`) VALUES
+(4, '12', '2023-09-14', '2023-09-20', 2, 8),
+(5, '12', '2023-09-14', '2023-09-20', 2, 8),
+(6, '12', '2023-09-14', '2023-09-20', 2, 8),
+(7, '12', '2023-09-14', '2023-09-20', 2, 8),
+(8, '12', '2023-09-14', '2023-09-20', 2, 8),
+(9, '12', '2023-09-14', '2023-09-20', 2, 8),
+(10, '12', '2023-09-14', '2023-09-20', 2, 8),
+(11, '12', '2023-09-14', '2023-09-20', 2, 8),
+(12, '12', '2023-09-14', '2023-09-20', 2, 8),
+(13, '12', '2023-09-14', '2023-09-20', 2, 8);
+
 -- --------------------------------------------------------
 
 --
@@ -45,7 +61,7 @@ CREATE TABLE `alquileres` (
 CREATE TABLE `inmuebles` (
   `Id` int(11) NOT NULL,
   `Longitud` varchar(200) NOT NULL,
-  `Laitud` varchar(200) NOT NULL,
+  `Latitud` varchar(200) NOT NULL,
   `CAmbientes` int(11) NOT NULL,
   `Tipo` varchar(200) NOT NULL,
   `Uso` varchar(200) NOT NULL,
@@ -53,6 +69,19 @@ CREATE TABLE `inmuebles` (
   `Disponible` tinyint(1) NOT NULL,
   `PropietarioId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `inmuebles`
+--
+
+INSERT INTO `inmuebles` (`Id`, `Longitud`, `Latitud`, `CAmbientes`, `Tipo`, `Uso`, `Precio`, `Disponible`, `PropietarioId`) VALUES
+(3, '-187', '123', 2, 'Casa', 'Recidencial', '12000', 1, 4),
+(4, '-187', '123', 2, 'Casa', 'Recidencial', '12000', 1, 5),
+(5, '-187', '123', 2, 'Casa', 'Recidencial', '12000', 1, 5),
+(6, '-187', '123', 2, 'Casa', 'Recidencial', '12000', 1, 5),
+(7, '-187', '1276', 2, 'Casa', 'Recidencial', '12000', 1, 5),
+(8, '-187', '1276', 2, 'Casa', 'Recidencial', '12000', 1, 5),
+(9, '-187', '1276', 1, 'Monoambiente', 'Recidencial', '10', 0, 5);
 
 -- --------------------------------------------------------
 
@@ -66,6 +95,13 @@ CREATE TABLE `inquilinos` (
   `Longitud` varchar(250) NOT NULL,
   `Latitud` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `inquilinos`
+--
+
+INSERT INTO `inquilinos` (`Id`, `PersonaId`, `Longitud`, `Latitud`) VALUES
+(2, 4, '-180', '123456');
 
 -- --------------------------------------------------------
 
@@ -81,6 +117,13 @@ CREATE TABLE `pagos` (
   `Importe` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `pagos`
+--
+
+INSERT INTO `pagos` (`Id`, `NroPago`, `AlquilerId`, `Fecha`, `Importe`) VALUES
+(1, 1, 13, '2023-09-20', '12');
+
 -- --------------------------------------------------------
 
 --
@@ -92,8 +135,16 @@ CREATE TABLE `personas` (
   `DNI` int(11) NOT NULL,
   `Nombre` varchar(50) NOT NULL,
   `Apellido` varchar(50) NOT NULL,
-  `Telefono` int(11) NOT NULL
+  `Telefono` bigint(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `personas`
+--
+
+INSERT INTO `personas` (`Id`, `DNI`, `Nombre`, `Apellido`, `Telefono`) VALUES
+(1, 44643099, ' Velentin', ' Garro', 2664900972),
+(4, 44643099, 'Alejandra', 'Garro', 2664900972);
 
 -- --------------------------------------------------------
 
@@ -107,6 +158,14 @@ CREATE TABLE `propietarios` (
   `Mail` varchar(250) NOT NULL,
   `Password` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `propietarios`
+--
+
+INSERT INTO `propietarios` (`Id`, `PersonaId`, `Mail`, `Password`) VALUES
+(4, 1, ' \"valen@mail.com\"', 'GAKKw6Co5EiIGNiZC1OfQC6offL+e8CoEs3SX0LIrA=='),
+(5, 4, 'valen@mail.com', 'GAKKw6Co5EiIGNiZC1OfQC6offL+e8CoEs3SX0LIrA==');
 
 --
 -- Índices para tablas volcadas
@@ -162,37 +221,37 @@ ALTER TABLE `propietarios`
 -- AUTO_INCREMENT de la tabla `alquileres`
 --
 ALTER TABLE `alquileres`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `inmuebles`
 --
 ALTER TABLE `inmuebles`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `inquilinos`
 --
 ALTER TABLE `inquilinos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `propietarios`
 --
 ALTER TABLE `propietarios`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
