@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 namespace inmobiliariaGarroAPI;
 
 	[Route("api/[controller]")]
-	//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[ApiController]
 	public class PropietariosController : ControllerBase
 	{
@@ -120,7 +120,8 @@ namespace inmobiliariaGarroAPI;
 			{
 				var usuario = User.Identity.Name;
 				var propietario = contexto.Propietarios.Include(p => p.Persona).FirstOrDefault(p => p.Id+"" == usuario);
-
+				propietario.Id = 0;
+				propietario.Persona.Id=0;
              	return Ok(propietario);
 			}
 			catch (Exception ex)
