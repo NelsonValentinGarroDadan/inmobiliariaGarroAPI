@@ -100,11 +100,24 @@ namespace inmobiliariaGarroAPI;
 			try
 			{
 				var usuario = User.Identity.Name;
-				var alquileres = contexto.Inmuebles
+				var propiedades = contexto.Inmuebles
+					.Select(i => new {
+						Id = i.Id,
+						Longitud = i.Longitud,
+						Latitud = i.Latitud,
+						CAmbientes = i.CAmbientes,
+						Tipo = i.Tipo,
+						Uso = i.Uso,
+						Disponible = i.Disponible,
+						Imagen = i.Imagen,
+						Precio = i.Precio,
+						PropietarioId = i.PropietarioId
+
+					})
 					.Where(i => i.PropietarioId+"" == usuario)
 					.ToList();
-				if(alquileres == null) return NotFound();
-				return Ok(alquileres);
+				if(propiedades == null) return NotFound();
+				return Ok(propiedades);
 			}
 			catch (Exception ex)
 			{

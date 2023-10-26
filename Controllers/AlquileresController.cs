@@ -136,12 +136,7 @@ namespace inmobiliariaGarroAPI;
                                         },
                         Inmueble = new { 
                                         Id = a.Inmueble.Id,
-                                        Direccion = a.Inmueble.Longitud+" "+a.Inmueble.Latitud,
-                                        Propietario = new {
-                                                        Id = a.Inmueble.Propietario.Id,
-                                                        Nombre = a.Inmueble.Propietario.Persona.Nombre ,
-                                                        Apellido = a.Inmueble.Propietario.Persona.Apellido
-                                                        }
+                                        Direccion = a.Inmueble.Longitud+" "+a.Inmueble.Latitud
                                         }
                     })
                     .ToList()

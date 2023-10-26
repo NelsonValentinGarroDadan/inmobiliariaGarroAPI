@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\avatar_13.png",
+      "PackagePath": "staticwebassets\\Uploads\\avatar_13.png"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_14.png",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_14.png"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.inmobiliariaGarroAPI.props",
+      "PackagePath": "build\\inmobiliariaGarroAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.inmobiliariaGarroAPI.props",
+      "PackagePath": "buildMultiTargeting\\inmobiliariaGarroAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.inmobiliariaGarroAPI.props",
+      "PackagePath": "buildTransitive\\inmobiliariaGarroAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.inmobiliariaGarroAPI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
