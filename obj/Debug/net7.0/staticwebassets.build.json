@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "+6ctlmCyFh2KndVnPoWT7PldVhwz7i1Qkf60UXIwGQI=",
+  "Hash": "v2NUepatPL6VtZM6taV50OvpzUgswDnmbb6HryBJ8IU=",
   "Source": "inmobiliariaGarroAPI",
   "BasePath": "_content/inmobiliariaGarroAPI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "inmobiliariaGarroAPI\\wwwroot",
+      "Source": "inmobiliariaGarroAPI",
+      "ContentRoot": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\",
+      "BasePath": "_content/inmobiliariaGarroAPI",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

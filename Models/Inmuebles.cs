@@ -17,5 +17,7 @@ public class Inmuebles
 
     [ForeignKey("PropietarioId")] 
     public Propietarios Propietario {get; set;}
-    
+    public string Imagen {get; set;}
+    [NotMapped]
+    public IFormFile ImagenFileName { get; set; }
 }

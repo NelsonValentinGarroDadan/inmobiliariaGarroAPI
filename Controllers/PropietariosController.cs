@@ -120,8 +120,7 @@ namespace inmobiliariaGarroAPI;
 			{
 				var usuario = User.Identity.Name;
 				var propietario = contexto.Propietarios.Include(p => p.Persona).FirstOrDefault(p => p.Id+"" == usuario);
-				propietario.Id = 0;
-				propietario.Persona.Id=0;
+				
              	return Ok(propietario);
 			}
 			catch (Exception ex)
@@ -130,27 +129,27 @@ namespace inmobiliariaGarroAPI;
 			}
 		}
 		//Update
-		// PUT: api/<controller>
-		 [HttpPut("update")]
+		// PATCH: api/<controller>
+		 [HttpPatch("update")]
 		 
-		public async Task<IActionResult> Update([FromForm] Propietarios propietario)
+		public async Task<IActionResult> Update([FromForm] string Nombre,[FromForm] string Apellido,[FromForm] int DNI,[FromForm] long Telefono)
 		{
 			try
 			{
 				var usuario = User.Identity.Name;
 				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Id+"" == usuario);
 				if(p == null) return NotFound();
-				p.Mail = propietario.Mail;
-				p.Persona.Nombre = propietario.Persona.Nombre;
-				p.Persona.Apellido = propietario.Persona.Apellido;
-				p.Persona.Telefono = propietario.Persona.Telefono;
-				p.Persona.DNI = propietario.Persona.DNI;
+				p.Persona.Nombre =Nombre;
+				p.Persona.Apellido = Apellido;
+				p.Persona.Telefono = Telefono;
+				p.Persona.DNI = DNI;
 				contexto.Update(p);
 				await contexto.SaveChangesAsync();
 				return CreatedAtAction("perfil", new { id = p.Id }, p);
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.Message);
 				return BadRequest(ex.Message);
 			}
 		}

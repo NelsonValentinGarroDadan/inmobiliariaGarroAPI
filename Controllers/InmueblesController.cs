@@ -102,17 +102,6 @@ namespace inmobiliariaGarroAPI;
 				var usuario = User.Identity.Name;
 				var alquileres = contexto.Inmuebles
 					.Where(i => i.PropietarioId+"" == usuario)
-					.Select(i => new
-					{
-						Id = i.Id,
-						Longitud = i.Longitud,
-						Latitud = i.Latitud,
-						CantidadAmbientes = i.CAmbientes,
-						Tipo = i.Tipo,
-						Uso = i.Uso,
-						Disponible = i.Disponible,
-						Precio = i.Precio
-					})
 					.ToList();
 				if(alquileres == null) return NotFound();
 				return Ok(alquileres);
@@ -131,8 +120,8 @@ namespace inmobiliariaGarroAPI;
 												[FromForm] string Tipo ,
 												[FromForm] string Uso ,
 												[FromForm] decimal Precio ,
-												[FromForm] bool Disponible ,
-												[FromForm] int PropietarioId )
+												[FromForm] int PropietarioId ,
+												[FromForm] IFormFile imagen)
 		{
 			try
 			{
@@ -144,24 +133,32 @@ namespace inmobiliariaGarroAPI;
 					Tipo = Tipo,
 					Uso = Uso,
 					Precio = Precio,
-					Disponible = Disponible,
-					PropietarioId = PropietarioId
+					Disponible = false,
+					PropietarioId = PropietarioId,
+					ImagenFileName = imagen,
+					Imagen = ""
 				};
 				contexto.Inmuebles.Add(inmueble);
+				
 				await contexto.SaveChangesAsync();
 				var i = contexto.Inmuebles
-					.Select(i => new
-					{
-						Id = i.Id,
-						Longitud = i.Longitud,
-						Latitud = i.Latitud,
-						CantidadAmbientes = i.CAmbientes,
-						Tipo = i.Tipo,
-						Uso = i.Uso,
-						Disponible = i.Disponible,
-						Precio = i.Precio
-					})
 					.FirstOrDefault(inm => inm.Id == inmueble.Id);
+				string wwwPath = environment.WebRootPath;
+                string path = Path.Combine(wwwPath, "Uploads");
+                if(!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                string fileName = "imagen_" + i.Id + Path.GetExtension(inmueble.ImagenFileName.FileName);
+                string pathCompleto = Path.Combine(path, fileName);
+                i.Imagen = fileName;
+                using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                {
+                    inmueble.ImagenFileName.CopyTo(stream);
+                }
+				contexto.Update(i);
+				await contexto.SaveChangesAsync();
 				if (i == null)
 				{
 					return NotFound();
@@ -206,8 +203,8 @@ namespace inmobiliariaGarroAPI;
 				return BadRequest(ex.Message);
 			}
 		}
-		// PUT: api/<controller>
-		 [HttpPut("cambiarDisponibilidad")]
+		// PATCH: api/<controller>
+		 [HttpPatch("cambiarDisponibilidad")]
 		 
 		public async Task<IActionResult> CambiarDisponibilidad([FromForm] int Id,[FromForm] bool estado)
 		{
@@ -244,4 +241,26 @@ namespace inmobiliariaGarroAPI;
 				return BadRequest(ex.Message);
 			}
 		}
-    }
+		[AllowAnonymous]
+		[HttpGet("Imagenes/{nombreImagen}")]
+		public IActionResult ObtenerImagen(string nombreImagen)
+		{
+			try
+			{
+				// Asegúrate de que nombreImagen sea seguro y válido.
+				// Por ejemplo, verifica que no contenga rutas relativas.
+
+				string wwwRootPath = environment.WebRootPath; // Obten la ruta raíz del servidor web
+				string filePath = Path.Combine(wwwRootPath, "Uploads", nombreImagen);
+
+				var imageBytes = System.IO.File.ReadAllBytes(filePath);
+
+				return File(imageBytes, "image/jpeg"); // Cambia "image/jpeg" al tipo MIME correcto de tu imagen
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+	}

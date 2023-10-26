@@ -126,3 +126,4 @@ C:\Users\Usuario\Documents\GitHub\inmobiliariaGarroAPI\obj\Debug\net7.0\refint\i
 C:\Users\Usuario\Documents\GitHub\inmobiliariaGarroAPI\obj\Debug\net7.0\inmobiliariaGarroAPI.pdb
 C:\Users\Usuario\Documents\GitHub\inmobiliariaGarroAPI\obj\Debug\net7.0\inmobiliariaGarroAPI.genruntimeconfig.cache
 C:\Users\Usuario\Documents\GitHub\inmobiliariaGarroAPI\obj\Debug\net7.0\ref\inmobiliariaGarroAPI.dll
+C:\Users\Usuario\Documents\GitHub\inmobiliariaGarroAPI\bin\Debug\net7.0\inmobiliariaGarroAPI.staticwebassets.runtime.json
