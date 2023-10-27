@@ -124,6 +124,28 @@ namespace inmobiliariaGarroAPI;
 				return BadRequest(ex.Message);
 			}
 		}
+		// GET: api/<controller>
+		 [HttpGet("obtenerAlquiladosXPerfil")]
+		public async Task<IActionResult> ObteneInmueblesrXPerfil()
+		{
+			try
+			{
+                var usuario = User.Identity.Name;
+                var inmueblesAlquilados = contexto.Inmuebles
+                .Join(contexto.Alquileres,
+                    inmueble => inmueble.Id,
+                    alquiler => alquiler.InmuebleId,
+                    (inmueble, alquiler) => new { Inmueble = inmueble, Alquiler = alquiler })
+                .Where(join => join.Inmueble.PropietarioId+"" ==usuario) 
+                .Select(join => join.Inmueble) 
+                .ToList();
+                 return Ok(inmueblesAlquilados);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
 		 //Alta
 		// POST: api/<controller>
 		 [HttpPost("create")]

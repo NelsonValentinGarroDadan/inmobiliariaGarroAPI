@@ -58,7 +58,35 @@ namespace inmobiliariaGarroAPI;
 				return BadRequest(ex.Message);
 			}
 		}
+		 //GET: api/<controller>
+        [HttpGet("obtenerXInmueble")]
+        public async Task<IActionResult> ObtenerXInmueble([FromQuery] int Id)
+		{
+			try
+			{
+                var alquiler = contexto.Alquileres.FirstOrDefault(a => a.InmuebleId == Id);
 
+				if (alquiler != null)
+				{
+					int inquilinoId = alquiler.InquilinoId;
+
+					var inquilino = contexto.Inquilinos.Include(p=> p.Persona).FirstOrDefault(i => i.Id == inquilinoId);
+
+					if (inquilino != null)
+    				{
+                		return Ok(inquilino);
+					}else{
+						return NotFound();
+					}
+				}else{
+						return NotFound();
+				}
+            }
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+        }
         //Alta
 		// POST: api/<controller>
 		 [HttpPost("create")]

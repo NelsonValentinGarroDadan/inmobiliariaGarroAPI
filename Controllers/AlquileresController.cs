@@ -109,45 +109,42 @@ namespace inmobiliariaGarroAPI;
 			}
 		}
         // GET: api/<controller>
+		 [HttpGet("obtenerXInmueble")]
+		public async Task<IActionResult> ObtenerXInmueble([FromQuery] int Id)
+		{
+			try
+			{
+                var alquiler = contexto.Alquileres
+                    .Where(alquiler => alquiler.InmuebleId == Id)
+                    .FirstOrDefault();
+                return Ok(alquiler);
+            }
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+        // GET: api/<controller>
 		 [HttpGet("obtenerXPerfil")]
 		public async Task<IActionResult> ObtenerXPerfil()
 		{
 			try
 			{
                 var usuario = User.Identity.Name;
-                return Ok(
-                    contexto.Alquileres
-                    .Include(a => a.Inquilino)
-                        .ThenInclude(i => i.Persona)
-                    .Include(a => a.Inmueble)
-                        .ThenInclude(i => i.Propietario)
-                        .ThenInclude(p => p.Persona)
-                    .Where(i => i.Inmueble.PropietarioId+"" == usuario)
-                    .Select(a => new
-                    {
-                        Id = a.Id,
-                        Precio = a.Precio,
-                        Fecha_Inicio = a.Fecha_Inicio,
-                        Fecha_Fin  = a.Fecha_Fin ,
-                        Inquilino = new {
-                                        Id= a.Inquilino.Id ,
-                                        Nombre = a.Inquilino.Persona.Nombre ,
-                                        Apellido = a.Inquilino.Persona.Apellido
-                                        },
-                        Inmueble = new { 
-                                        Id = a.Inmueble.Id,
-                                        Direccion = a.Inmueble.Longitud+" "+a.Inmueble.Latitud
-                                        }
-                    })
-                    .ToList()
-                );
+                var Alquileres = contexto.Alquileres
+                .Include(a => a.Inmueble)
+                .Include(a => a.Inquilino)
+                    .ThenInclude(i => i.Persona)
+                .Where(a => a.Inmueble.PropietarioId+"" ==usuario) 
+                .ToList();
+                 return Ok(Alquileres);
 			}
 			catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}
 		}
-
+        
          //Alta
 		// POST: api/<controller>
 		 [HttpPost("create")]

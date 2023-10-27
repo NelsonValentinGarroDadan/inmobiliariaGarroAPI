@@ -104,12 +104,8 @@ namespace inmobiliariaGarroAPI;
                                         },
                             Inmueble = new { 
                                         Id = p.Alquiler.Inmueble.Id,
-                                        Direccion =p.Alquiler.Inmueble.Longitud+" "+p.Alquiler.Inmueble.Latitud,
-                                        Propietario = new {
-                                                        Id = p.Alquiler.Inmueble.Propietario.Id,
-                                                        Nombre = p.Alquiler.Inmueble.Propietario.Persona.Nombre ,
-                                                        Apellido = p.Alquiler.Inmueble.Propietario.Persona.Apellido
-                                                        }
+                                        Longitud =p.Alquiler.Inmueble.Longitud,
+                                        Latitud =p.Alquiler.Inmueble.Latitud
                                         }
                         },
                         Fecha  = p.Fecha ,
@@ -175,7 +171,50 @@ namespace inmobiliariaGarroAPI;
 				return BadRequest(ex.Message);
 			}
 		}
+        // GET: api/<controller>
+		 [HttpGet("obtenerXAlquiler")]
+		public async Task<IActionResult> ObtenerXInmueble([FromQuery] int id)
+		{
+			try
+			{
+                var pago = contexto.Pagos
+                    .Where(i => i.Alquiler.Inmueble.Id == id)
+                    .Include(p => p.Alquiler)
+                        .ThenInclude(a => a.Inquilino)
+                    .Include(a => a.Alquiler)
+                        .ThenInclude(a => a.Inmueble)
+                            .ThenInclude(inm => inm.Propietario)
+                                .ThenInclude(prop => prop.Persona)
+                    .Select(p => new
+                    {
+                        Id = p.Id,
+                        NroPAgo = p.NroPago,
+                        Alquiler = new {
+                            Id = p.Alquiler.Id,
+                            Inquilino = new {
+                                        Id= p.Alquiler.Inquilino.Id ,
+                                        Nombre = p.Alquiler.Inquilino.Persona.Nombre ,
+                                        Apellido = p.Alquiler.Inquilino.Persona.Apellido
+                                        },
+                            Inmueble = new { 
+                                        Id = p.Alquiler.Inmueble.Id,
+                                        Longitud =p.Alquiler.Inmueble.Longitud,
+                                        Latitud =p.Alquiler.Inmueble.Latitud
+                                        }
+                        },
+                        Fecha  = p.Fecha ,
+                        Importe = p.Importe
 
+                        
+                    }).ToList();
+                if(pago==null ) return NotFound();
+                return Ok(pago);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
          //Alta
 		// POST: api/<controller>
 		 [HttpPost("create")]
