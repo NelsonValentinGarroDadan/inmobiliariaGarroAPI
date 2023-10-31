@@ -27,37 +27,6 @@ namespace inmobiliariaGarroAPI;
 			this.config = config;
 			this.environment = env;
 		}
-		// GET: api/<controller>
-		[HttpGet("obtenerTodos")]
-		public async Task<IActionResult> ObtenerTodos()
-		{
-			try
-			{
-             	return Ok(contexto.Inmuebles
-				.Select(i => new
-				{
-					Id = i.Id,
-					Longitud = i.Longitud,
-					Latitud = i.Latitud,
-					CantidadAmbientes = i.CAmbientes,
-					Tipo = i.Tipo,
-					Uso = i.Uso,
-					Disponible = i.Disponible,
-					Precio = i.Precio,
-					Propietario = new
-					{
-						Id = i.Propietario.Id,
-						Nombre = i.Propietario.Persona.Nombre,
-						Apellido = i.Propietario.Persona.Apellido
-					} 
-				})
-				.ToList());
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
 
 		 // GET: api/<controller>
 		 [HttpGet("obtenerXId/{id}")]
@@ -149,95 +118,44 @@ namespace inmobiliariaGarroAPI;
 		 //Alta
 		// POST: api/<controller>
 		 [HttpPost("create")]
-		public async Task<IActionResult> Create([FromForm] string Longitud , 
-												[FromForm] string Latitud ,
-												[FromForm] int CAmbientes ,
-												[FromForm] string Tipo ,
-												[FromForm] string Uso ,
-												[FromForm] decimal Precio ,
-												[FromForm] int PropietarioId ,
-												[FromForm] IFormFile imagen)
+		public async Task<IActionResult> Create([FromForm] Inmuebles inmueble)
 		{
 			try
 			{
-				var inmueble = new Inmuebles
-				{
-					Longitud = Longitud, 
-					Latitud = Latitud,
-					CAmbientes = CAmbientes,
-					Tipo = Tipo,
-					Uso = Uso,
-					Precio = Precio,
-					Disponible = false,
-					PropietarioId = PropietarioId,
-					ImagenFileName = imagen,
-					Imagen = ""
-				};
+				var u = User.Identity.Name;
+				var propietario = await contexto.Propietarios.FirstAsync(p => p.Id+"" == u);
+				inmueble.PropietarioId = propietario.Id;
+				inmueble.Disponible = false;
 				contexto.Inmuebles.Add(inmueble);
-				
-				await contexto.SaveChangesAsync();
-				var i = contexto.Inmuebles
-					.FirstOrDefault(inm => inm.Id == inmueble.Id);
-				string wwwPath = environment.WebRootPath;
-                string path = Path.Combine(wwwPath, "Uploads");
-                if(!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
 
-                string fileName = "imagen_" + i.Id + Path.GetExtension(inmueble.ImagenFileName.FileName);
-                string pathCompleto = Path.Combine(path, fileName);
-                i.Imagen = fileName;
-                using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
-                {
-                    inmueble.ImagenFileName.CopyTo(stream);
-                }
-				contexto.Update(i);
 				await contexto.SaveChangesAsync();
-				if (i == null)
-				{
-					return NotFound();
+				if(inmueble.ImagenFileName !=null && inmueble.Id>0){
+					string wwwPath = environment.WebRootPath;
+					string path = Path.Combine(wwwPath, "Uploads");
+					if(!Directory.Exists(path))
+					{
+						Directory.CreateDirectory(path);
+					}
+
+					string fileName = "imagen_" + inmueble.Id + Path.GetExtension(inmueble.ImagenFileName.FileName);
+					string pathCompleto = Path.Combine(path, fileName);
+					inmueble.Imagen = fileName;
+					using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+					{
+						inmueble.ImagenFileName.CopyTo(stream);
+					}
+					contexto.Update(inmueble);
+					await contexto.SaveChangesAsync();
 				}
-				return CreatedAtAction("ObtenerXId", new { id = i.Id },i);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
-		// PUT: api/<controller>
-		 [HttpPut("update")]
-		 
-		public async Task<IActionResult> Update([FromForm] int Id,
-												[FromForm] string Longitud , 
-												[FromForm] string Latitud ,
-												[FromForm] int CAmbientes ,
-												[FromForm] string Tipo ,
-												[FromForm] string Uso ,
-												[FromForm] decimal Precio )
-		{
-			try
-			{
-				var i = contexto.Inmuebles.FirstOrDefault(i => i.Id == Id);
-				if(i == null) return NotFound();
-
-				i.Longitud = Longitud;
-				i.Latitud = Latitud;
-				i.CAmbientes = CAmbientes;
-				i.Tipo = Tipo;
-				i.Uso = Uso;
-				i.Precio = Precio;
 				
-
-				contexto.Update(i);
-				await contexto.SaveChangesAsync();
-				return CreatedAtAction("obtenerXId", new { id = i.Id }, i);
+				return CreatedAtAction("ObtenerXId", new { id = inmueble.Id },inmueble);
 			}
 			catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}
 		}
+		
 		// PATCH: api/<controller>
 		 [HttpPatch("cambiarDisponibilidad")]
 		 
@@ -258,24 +176,9 @@ namespace inmobiliariaGarroAPI;
 				return BadRequest(ex.Message);
 			}
 		}
-		// DELETE: api/<controller>
-		// POST: api/<controller>
-		 [HttpDelete("delete/{Id}")]
-		public async Task<IActionResult> Delete(int Id)
-		{
-			try
-			{
-				var i = contexto.Inmuebles.FirstOrDefault(inm => inm.Id == Id);
-				if(i == null) return NotFound();
-				contexto.Inmuebles.Remove(i);
-				await contexto.SaveChangesAsync();
-				return NoContent();
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
+		
+		// GET: api/<controller>
+		 
 		[AllowAnonymous]
 		[HttpGet("Imagenes/{nombreImagen}")]
 		public IActionResult ObtenerImagen(string nombreImagen)

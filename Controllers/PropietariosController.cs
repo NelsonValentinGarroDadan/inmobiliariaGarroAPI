@@ -27,90 +27,7 @@ namespace inmobiliariaGarroAPI;
 			this.config = config;
 			this.environment = env;
 		}
-		// GET: api/<controller>
-		[HttpGet("obtenerTodos")]
-		public async Task<IActionResult> ObtenerTodos()
-		{
-			try
-			{
-             	return Ok(contexto.Propietarios.Include(p => p.Persona).ToList());
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
-		// GET: api/<controller>
-		 [HttpGet("obtenerXId/{id}")]
-		public async Task<IActionResult> ObtenerXId(int id)
-		{
-			try
-			{
-				
-				var propietario = contexto.Propietarios.Include(p => p.Persona).FirstOrDefault(p => p.Id == id);
-				if(propietario == null) return NotFound();
-             	return Ok(propietario);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
-		//Alta
-		// POST: api/<controller>
-		 [HttpPost("create")]
-		public async Task<IActionResult> Create([FromForm] int PersonaId, [FromForm] string Mail, [FromForm] string Password)
-		{
-			try
-			{
-				string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                        password: Password,
-                        salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
-                        prf: KeyDerivationPrf.HMACSHA1,
-                        iterationCount: 1000,
-                        numBytesRequested: 250 / 8
-                    ));
-				var propietario = new Propietarios
-				{
-					PersonaId = PersonaId,
-					Mail = Mail,
-					Password = hashed
-				};
-				contexto.Propietarios.Add(propietario);
-				await contexto.SaveChangesAsync();
-				var p = contexto.Propietarios
-					.Include(prop => prop.Persona)
-					.FirstOrDefault(p => p.Id == propietario.Id);
-
-				if (p == null)
-				{
-					return NotFound();
-				}
-				return CreatedAtAction("obtenerXId", new { id = p.Id },p);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
-		// DELETE: api/<controller>
-		// POST: api/<controller>
-		 [HttpDelete("delete/{Id}")]
-		public async Task<IActionResult> Delete(int Id)
-		{
-			try
-			{
-				var p = contexto.Propietarios.FirstOrDefault(p => p.Id == Id);
-				if(p == null) return NotFound();
-				contexto.Propietarios.Remove(p);
-				await contexto.SaveChangesAsync();
-				return NoContent();
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
+		
 		//Obtener Logeado
 		// GET: api/<controller>
 		[HttpGet("perfil")]
@@ -153,38 +70,7 @@ namespace inmobiliariaGarroAPI;
 				return BadRequest(ex.Message);
 			}
 		}
-		//Cambio de Contraseña
-		// PUT: api/<controller>
-		 [HttpPut("cambiarContraseña")]
-		public async Task<IActionResult> CambiarContraseña([FromForm] string nuevaClave )
-		{
-			try
-			{
-				if(nuevaClave == "") return BadRequest("La clave no puede ser vacia");
-				var usuario = User.Identity.Name;
-				var propietario = contexto.Propietarios.Include(p => p.Persona).FirstOrDefault(p => p.Id+"" == usuario);		
-				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Id == propietario.Id);
-				if(p == null) return NotFound();
-				string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                        password: nuevaClave,
-                        salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
-                        prf: KeyDerivationPrf.HMACSHA1,
-                        iterationCount: 1000,
-                        numBytesRequested: 250 / 8
-                    ));
-				p.Password = hashed;
-				contexto.Update(p);
-				await contexto.SaveChangesAsync();
-				return CreatedAtAction("perfil", new { id = p.Id }, p);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
 		
-		// POST: api/<controller>
-		//Login
 		[AllowAnonymous]
 		 [HttpPost("login")]
 		public async Task<IActionResult> Login([FromForm] string Mail,[FromForm] string Password)
