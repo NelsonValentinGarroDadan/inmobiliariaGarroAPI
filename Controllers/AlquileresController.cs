@@ -116,6 +116,11 @@ namespace inmobiliariaGarroAPI;
 			{
                 var alquiler = contexto.Alquileres
                     .Where(alquiler => alquiler.InmuebleId == Id)
+                    .Include(a => a.Inmueble)
+                        .ThenInclude(i => i.Propietario)
+                            .ThenInclude(p => p.Persona)
+                    .Include(a => a.Inquilino)
+                        .ThenInclude(i => i.Persona)
                     .FirstOrDefault();
                 return Ok(alquiler);
             }

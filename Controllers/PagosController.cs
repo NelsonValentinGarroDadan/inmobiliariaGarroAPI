@@ -178,7 +178,7 @@ namespace inmobiliariaGarroAPI;
 			try
 			{
                 var pago = contexto.Pagos
-                    .Where(i => i.Alquiler.Inmueble.Id == id)
+                    .Where(i => i.AlquilerId == id)
                     .Include(p => p.Alquiler)
                         .ThenInclude(a => a.Inquilino)
                     .Include(a => a.Alquiler)
@@ -188,7 +188,7 @@ namespace inmobiliariaGarroAPI;
                     .Select(p => new
                     {
                         Id = p.Id,
-                        NroPAgo = p.NroPago,
+                        NroPago = p.NroPago,
                         Alquiler = new {
                             Id = p.Alquiler.Id,
                             Inquilino = new {
