@@ -30,11 +30,11 @@ namespace inmobiliariaGarroAPI;
         
 		 //GET: api/<controller>
         [HttpGet("obtenerXInmueble")]
-        public async Task<IActionResult> ObtenerXInmueble([FromQuery] int Id)
+        public async Task<IActionResult> ObtenerXInmueble([FromQuery] Alquileres alq)
 		{
 			try
 			{
-                var alquiler = contexto.Alquileres.FirstOrDefault(a => a.InmuebleId == Id);
+                var alquiler = contexto.Alquileres.FirstOrDefault(a => a.InmuebleId == alq.Id);
 
 				if (alquiler != null)
 				{

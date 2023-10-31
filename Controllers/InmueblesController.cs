@@ -69,6 +69,7 @@ namespace inmobiliariaGarroAPI;
 			try
 			{
 				var usuario = User.Identity.Name;
+				var usuarioId = Convert.ToInt32(usuario);
 				var propiedades = contexto.Inmuebles
 					.Select(i => new {
 						Id = i.Id,
@@ -83,7 +84,7 @@ namespace inmobiliariaGarroAPI;
 						PropietarioId = i.PropietarioId
 
 					})
-					.Where(i => i.PropietarioId+"" == usuario)
+					.Where(i => i.PropietarioId == usuarioId)
 					.ToList();
 				if(propiedades == null) return NotFound();
 				return Ok(propiedades);
@@ -95,17 +96,18 @@ namespace inmobiliariaGarroAPI;
 		}
 		// GET: api/<controller>
 		 [HttpGet("obtenerAlquiladosXPerfil")]
-		public async Task<IActionResult> ObteneInmueblesrXPerfil()
+		public async Task<IActionResult> ObtenerAlquiladosXPerfil()
 		{
 			try
 			{
                 var usuario = User.Identity.Name;
+				var usuarioId = Convert.ToInt32(usuario);
                 var inmueblesAlquilados = contexto.Inmuebles
                 .Join(contexto.Alquileres,
                     inmueble => inmueble.Id,
                     alquiler => alquiler.InmuebleId,
                     (inmueble, alquiler) => new { Inmueble = inmueble, Alquiler = alquiler })
-                .Where(join => join.Inmueble.PropietarioId+"" ==usuario) 
+                .Where(join => join.Inmueble.PropietarioId == usuarioId) 
                 .Select(join => join.Inmueble) 
                 .ToList();
                  return Ok(inmueblesAlquilados);
@@ -159,13 +161,14 @@ namespace inmobiliariaGarroAPI;
 		// PATCH: api/<controller>
 		 [HttpPatch("cambiarDisponibilidad")]
 		 
-		public async Task<IActionResult> CambiarDisponibilidad([FromForm] int Id,[FromForm] bool estado)
+		public async Task<IActionResult> CambiarDisponibilidad([FromForm] Inmuebles inmueble)
 		{
 			try
 			{
-				var i = contexto.Inmuebles.FirstOrDefault(inm => inm.Id == Id);
+				var usuarioId = Convert.ToInt32(User.Identity.Name);
+				var i = contexto.Inmuebles.FirstOrDefault(inm => inm.Id == inmueble.Id && inm.Propietario.Id == inmueble.Propietario.Id);
 				if(i == null) return NotFound();
-				i.Disponible = estado;
+				i.Disponible = inmueble.Disponible;
 
 				contexto.Update(i);
 				await contexto.SaveChangesAsync();

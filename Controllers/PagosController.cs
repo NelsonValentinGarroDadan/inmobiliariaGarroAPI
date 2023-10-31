@@ -30,12 +30,12 @@ namespace inmobiliariaGarroAPI;
      
         // GET: api/<controller>
 		 [HttpGet("obtenerXAlquiler")]
-		public async Task<IActionResult> ObtenerXInmueble([FromQuery] int id)
+		public async Task<IActionResult> ObtenerXInmueble([FromQuery] Alquileres alquiler)
 		{
 			try
 			{
                 var pago = contexto.Pagos
-                    .Where(i => i.AlquilerId == id)
+                    .Where(i => i.AlquilerId == alquiler.Id)
                     .Include(p => p.Alquiler)
                         .ThenInclude(a => a.Inquilino)
                     .Include(a => a.Alquiler)

@@ -49,20 +49,16 @@ namespace inmobiliariaGarroAPI;
 		// PATCH: api/<controller>
 		 [HttpPatch("update")]
 		 
-		public async Task<IActionResult> Update([FromForm] string Nombre,[FromForm] string Apellido,[FromForm] int DNI,[FromForm] long Telefono)
+		public async Task<IActionResult> Update([FromForm] Propietarios propietario)
 		{
 			try
 			{
 				var usuario = User.Identity.Name;
-				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Id+"" == usuario);
-				if(p == null) return NotFound();
-				p.Persona.Nombre =Nombre;
-				p.Persona.Apellido = Apellido;
-				p.Persona.Telefono = Telefono;
-				p.Persona.DNI = DNI;
-				contexto.Update(p);
+				var usuarioId = Convert.ToInt32(usuario);
+				if(usuarioId != propietario.Id) return BadRequest();
+				contexto.Update(propietario);
 				await contexto.SaveChangesAsync();
-				return CreatedAtAction("perfil", new { id = p.Id }, p);
+				return CreatedAtAction("perfil", new { id = propietario.Id }, propietario);
 			}
 			catch (Exception ex)
 			{
@@ -73,14 +69,15 @@ namespace inmobiliariaGarroAPI;
 		
 		[AllowAnonymous]
 		 [HttpPost("login")]
-		public async Task<IActionResult> Login([FromForm] string Mail,[FromForm] string Password)
+		public async Task<IActionResult> Login([FromForm] LoginView login)
 		{
 			try
 			{
-				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Mail == Mail);
+				Console.WriteLine(login.Mail+" "+login.Password);
+				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Mail == login.Mail);
 				if(p == null) return  BadRequest("Usuario o Contraseña incorrecta");
 				string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                        password: Password,
+                        password: login.Password,
                         salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
                         prf: KeyDerivationPrf.HMACSHA1,
                         iterationCount: 1000,
@@ -90,9 +87,10 @@ namespace inmobiliariaGarroAPI;
 				var key = new SymmetricSecurityKey(
 						System.Text.Encoding.ASCII.GetBytes(config["TokenAuthentication:SecretKey"]));
 				var credenciales = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+				var Id = Convert.ToString(p.Id);
 				var claims = new List<Claim>
 				{
-					new Claim(ClaimTypes.Name, p.Id+""),
+					new Claim(ClaimTypes.Name, Id),
 					new Claim(ClaimTypes.Role, "Propietario"),
 				};
 
