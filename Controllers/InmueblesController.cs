@@ -30,7 +30,7 @@ namespace inmobiliariaGarroAPI;
 
 		 // GET: api/<controller>
 		 [HttpGet("obtenerXId/{id}")]
-		public async Task<IActionResult> ObtenerXId(int id)
+		private async Task<IActionResult> ObtenerXId(int id)
 		{
 			try
 			{
@@ -81,7 +81,8 @@ namespace inmobiliariaGarroAPI;
 						Disponible = i.Disponible,
 						Imagen = i.Imagen,
 						Precio = i.Precio,
-						PropietarioId = i.PropietarioId
+						PropietarioId = i.PropietarioId,
+						Propietario = i.Propietario
 
 					})
 					.Where(i => i.PropietarioId == usuarioId)
@@ -125,10 +126,11 @@ namespace inmobiliariaGarroAPI;
 			try
 			{
 				var u = User.Identity.Name;
-				var propietario = await contexto.Propietarios.FirstAsync(p => p.Id+"" == u);
+				var usuarioId = Convert.ToInt32(u);
+				var propietario = await contexto.Propietarios.FirstAsync(p => p.Id == usuarioId);
 				inmueble.PropietarioId = propietario.Id;
 				inmueble.Disponible = false;
-				contexto.Inmuebles.Add(inmueble);
+				await contexto.Inmuebles.AddAsync(inmueble);
 
 				await contexto.SaveChangesAsync();
 				if(inmueble.ImagenFileName !=null && inmueble.Id>0){
@@ -142,6 +144,7 @@ namespace inmobiliariaGarroAPI;
 					string fileName = "imagen_" + inmueble.Id + Path.GetExtension(inmueble.ImagenFileName.FileName);
 					string pathCompleto = Path.Combine(path, fileName);
 					inmueble.Imagen = fileName;
+					//inmueble.Imagen = Path.Combine("/Uploads", fileName);
 					using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
 					{
 						inmueble.ImagenFileName.CopyTo(stream);
@@ -161,7 +164,7 @@ namespace inmobiliariaGarroAPI;
 		// PATCH: api/<controller>
 		 [HttpPatch("cambiarDisponibilidad")]
 		 
-		public async Task<IActionResult> CambiarDisponibilidad([FromForm] Inmuebles inmueble)
+		public async Task<IActionResult> CambiarDisponibilidad([FromBody] Inmuebles inmueble)
 		{
 			try
 			{

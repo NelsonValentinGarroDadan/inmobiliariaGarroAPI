@@ -30,7 +30,7 @@ namespace inmobiliariaGarroAPI;
         
         // GET: api/<controller>
 		 [HttpGet("obtenerXInmueble")]
-		public async Task<IActionResult> ObtenerXInmueble([FromQuery] Inmuebles inmueble)
+		public async Task<IActionResult> ObtenerXInmueble([FromBody] Inmuebles inmueble)
 		{
 			try
 			{

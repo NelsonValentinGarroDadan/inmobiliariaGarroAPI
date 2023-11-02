@@ -49,13 +49,13 @@ namespace inmobiliariaGarroAPI;
 		// PATCH: api/<controller>
 		 [HttpPatch("update")]
 		 
-		public async Task<IActionResult> Update([FromForm] Propietarios propietario)
+		public async Task<IActionResult> Update([FromBody] Propietarios propietario)
 		{
 			try
 			{
 				var usuario = User.Identity.Name;
 				var usuarioId = Convert.ToInt32(usuario);
-				if(usuarioId != propietario.Id) return BadRequest();
+				if(usuarioId != propietario.Id) return NotFound();
 				contexto.Update(propietario);
 				await contexto.SaveChangesAsync();
 				return CreatedAtAction("perfil", new { id = propietario.Id }, propietario);
@@ -69,11 +69,11 @@ namespace inmobiliariaGarroAPI;
 		
 		[AllowAnonymous]
 		 [HttpPost("login")]
-		public async Task<IActionResult> Login([FromForm] LoginView login)
+		public async Task<IActionResult> Login([FromBody] LoginView login)
 		{
 			try
 			{
-				Console.WriteLine(login.Mail+" "+login.Password);
+				
 				var p = contexto.Propietarios.Include(x => x.Persona).FirstOrDefault(p => p.Mail == login.Mail);
 				if(p == null) return  BadRequest("Usuario o Contraseña incorrecta");
 				string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
