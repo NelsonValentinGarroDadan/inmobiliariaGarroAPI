@@ -54,7 +54,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseStaticFiles();
 //app.UseHttpsRedirection();//comentar para trabajar con http solo
 app.UseAuthentication();
 app.UseAuthorization();

@@ -55,8 +55,7 @@ namespace inmobiliariaGarroAPI;
                                         },
                             Inmueble = new { 
                                         Id = p.Alquiler.Inmueble.Id,
-                                        Longitud =p.Alquiler.Inmueble.Longitud,
-                                        Latitud =p.Alquiler.Inmueble.Latitud
+                                        Direccion =p.Alquiler.Inmueble.Direccion
                                         }
                         },
                         Fecha  = p.Fecha ,

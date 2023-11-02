@@ -39,8 +39,7 @@ namespace inmobiliariaGarroAPI;
 					.Select(i => new
 					{
 						Id = i.Id,
-						Longitud = i.Longitud,
-						Latitud = i.Latitud,
+						Direccion = i.Direccion,
 						CantidadAmbientes = i.CAmbientes,
 						Tipo = i.Tipo,
 						Uso = i.Uso,
@@ -73,8 +72,7 @@ namespace inmobiliariaGarroAPI;
 				var propiedades = contexto.Inmuebles
 					.Select(i => new {
 						Id = i.Id,
-						Longitud = i.Longitud,
-						Latitud = i.Latitud,
+						Direccion = i.Direccion,
 						CAmbientes = i.CAmbientes,
 						Tipo = i.Tipo,
 						Uso = i.Uso,
@@ -143,8 +141,7 @@ namespace inmobiliariaGarroAPI;
 
 					string fileName = "imagen_" + inmueble.Id + Path.GetExtension(inmueble.ImagenFileName.FileName);
 					string pathCompleto = Path.Combine(path, fileName);
-					inmueble.Imagen = fileName;
-					//inmueble.Imagen = Path.Combine("/Uploads", fileName);
+					inmueble.Imagen = Path.Combine("/Uploads", fileName);
 					using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
 					{
 						inmueble.ImagenFileName.CopyTo(stream);
@@ -153,7 +150,7 @@ namespace inmobiliariaGarroAPI;
 					await contexto.SaveChangesAsync();
 				}
 				
-				return CreatedAtAction("ObtenerXId", new { id = inmueble.Id },inmueble);
+				return CreatedAtAction(nameof(ObtenerXId), new { id = inmueble.Id },inmueble);
 			}
 			catch (Exception ex)
 			{
@@ -175,7 +172,7 @@ namespace inmobiliariaGarroAPI;
 
 				contexto.Update(i);
 				await contexto.SaveChangesAsync();
-				return CreatedAtAction("obtenerXId", new { id = i.Id }, i);
+				return CreatedAtAction(nameof(ObtenerXId), new { id = i.Id }, i);
 			}
 			catch (Exception ex)
 			{
@@ -183,28 +180,6 @@ namespace inmobiliariaGarroAPI;
 			}
 		}
 		
-		// GET: api/<controller>
-		 
-		[AllowAnonymous]
-		[HttpGet("Imagenes/{nombreImagen}")]
-		public IActionResult ObtenerImagen(string nombreImagen)
-		{
-			try
-			{
-				// Asegúrate de que nombreImagen sea seguro y válido.
-				// Por ejemplo, verifica que no contenga rutas relativas.
-
-				string wwwRootPath = environment.WebRootPath; // Obten la ruta raíz del servidor web
-				string filePath = Path.Combine(wwwRootPath, "Uploads", nombreImagen);
-
-				var imageBytes = System.IO.File.ReadAllBytes(filePath);
-
-				return File(imageBytes, "image/jpeg"); // Cambia "image/jpeg" al tipo MIME correcto de tu imagen
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
+		
 
 	}

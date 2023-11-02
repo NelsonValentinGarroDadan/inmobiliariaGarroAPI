@@ -6,8 +6,7 @@ public class Inmuebles
 {
     [Key]
     public int Id {get; set;}
-    public string Longitud {get; set;}
-    public string Latitud {get; set;}
+    public string Direccion {get; set;}
     public int CAmbientes {get; set;}
     public string Tipo {get; set;}
     public string Uso {get; set;}
