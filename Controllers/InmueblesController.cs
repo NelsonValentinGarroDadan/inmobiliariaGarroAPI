@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 namespace inmobiliariaGarroAPI;
 
 	[Route("api/[controller]")]
-	//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[ApiController]
 	public class InmueblesController : ControllerBase
 	{
@@ -28,39 +28,7 @@ namespace inmobiliariaGarroAPI;
 			this.environment = env;
 		}
 
-		 // GET: api/<controller>
-		 [HttpGet("obtenerXId/{id}")]
-		private async Task<IActionResult> ObtenerXId(int id)
-		{
-			try
-			{
-				var inmueble = contexto.Inmuebles
-					.Where(i => i.Id == id)
-					.Select(i => new
-					{
-						Id = i.Id,
-						Direccion = i.Direccion,
-						CantidadAmbientes = i.CAmbientes,
-						Tipo = i.Tipo,
-						Uso = i.Uso,
-						Disponible = i.Disponible,
-						Precio = i.Precio,
-						Propietario = new
-						{
-							Id = i.Propietario.Id,
-							Nombre = i.Propietario.Persona.Nombre,
-							Apellido = i.Propietario.Persona.Apellido
-						} 
-					});
-
-				if (inmueble == null) return NotFound();
-        		return Ok(inmueble);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
+		 
 		 // GET: api/<controller>
 		 [HttpGet("obtenerXPerfil")]
 		public async Task<IActionResult> ObtenerXPerfil()
@@ -85,7 +53,6 @@ namespace inmobiliariaGarroAPI;
 					})
 					.Where(i => i.PropietarioId == usuarioId)
 					.ToList();
-				if(propiedades == null) return NotFound();
 				return Ok(propiedades);
 			}
 			catch (Exception ex)
@@ -123,14 +90,15 @@ namespace inmobiliariaGarroAPI;
 		{
 			try
 			{
+				Console.WriteLine("Llego");
 				var u = User.Identity.Name;
 				var usuarioId = Convert.ToInt32(u);
-				var propietario = await contexto.Propietarios.FirstAsync(p => p.Id == usuarioId);
+				var propietario = contexto.Propietarios.Include(prop=> prop.Persona).First(p => p.Id == usuarioId);
 				inmueble.PropietarioId = propietario.Id;
 				inmueble.Disponible = false;
-				await contexto.Inmuebles.AddAsync(inmueble);
+				contexto.Inmuebles.Add(inmueble);
 
-				await contexto.SaveChangesAsync();
+				contexto.SaveChanges();
 				if(inmueble.ImagenFileName !=null && inmueble.Id>0){
 					string wwwPath = environment.WebRootPath;
 					string path = Path.Combine(wwwPath, "Uploads");
@@ -147,10 +115,10 @@ namespace inmobiliariaGarroAPI;
 						inmueble.ImagenFileName.CopyTo(stream);
 					}
 					contexto.Update(inmueble);
-					await contexto.SaveChangesAsync();
+					contexto.SaveChanges();
 				}
 				
-				return CreatedAtAction(nameof(ObtenerXId), new { id = inmueble.Id },inmueble);
+				return Ok(inmueble);
 			}
 			catch (Exception ex)
 			{
@@ -171,8 +139,8 @@ namespace inmobiliariaGarroAPI;
 				i.Disponible = inmueble.Disponible;
 
 				contexto.Update(i);
-				await contexto.SaveChangesAsync();
-				return CreatedAtAction(nameof(ObtenerXId), new { id = i.Id }, i);
+				contexto.SaveChanges();
+				return Ok(i);
 			}
 			catch (Exception ex)
 			{

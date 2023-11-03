@@ -28,8 +28,8 @@ namespace inmobiliariaGarroAPI;
 			this.environment = env;
 		}
         
-        // GET: api/<controller>
-		 [HttpGet("obtenerXInmueble")]
+        // POST: api/<controller>
+		 [HttpPost("obtenerXInmueble")]
 		public async Task<IActionResult> ObtenerXInmueble([FromBody] Inmuebles inmueble)
 		{
 			try

@@ -57,7 +57,7 @@ namespace inmobiliariaGarroAPI;
 				var usuarioId = Convert.ToInt32(usuario);
 				if(usuarioId != propietario.Id) return NotFound();
 				contexto.Update(propietario);
-				await contexto.SaveChangesAsync();
+				contexto.SaveChanges();
 				return CreatedAtAction("perfil", new { id = propietario.Id }, propietario);
 			}
 			catch (Exception ex)

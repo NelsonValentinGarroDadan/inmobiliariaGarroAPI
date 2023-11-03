@@ -29,7 +29,7 @@ namespace inmobiliariaGarroAPI;
 		}
      
         // GET: api/<controller>
-		 [HttpGet("obtenerXAlquiler")]
+		 [HttpPost("obtenerXAlquiler")]
 		public async Task<IActionResult> ObtenerXInmueble([FromBody] Alquileres alquiler)
 		{
 			try
@@ -63,7 +63,6 @@ namespace inmobiliariaGarroAPI;
 
                         
                     }).ToList();
-                if(pago==null ) return NotFound();
                 return Ok(pago);
 			}
 			catch (Exception ex)
