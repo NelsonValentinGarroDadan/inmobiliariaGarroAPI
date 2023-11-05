@@ -12,7 +12,7 @@ public class Inmuebles
     public string Uso {get; set;}
     public decimal Precio {get; set;}
     public bool Disponible {get; set;}
-    public int PropietarioId {get; set;}
+    public int? PropietarioId {get; set;}
 
     [ForeignKey("PropietarioId")] 
     public Propietarios? Propietario {get; set;}
