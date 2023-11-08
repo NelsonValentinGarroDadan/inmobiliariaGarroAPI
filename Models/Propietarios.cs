@@ -8,7 +8,7 @@ public class Propietarios
     public int Id {get; set;}
     [ForeignKey("PersonaId")]
     public int PersonaId {get; set;}
-    public Personas Persona {get; set;}
+    public Personas? Persona {get; set;}
     public string Mail {get; set;}
     public string Password {get; set;}
 }

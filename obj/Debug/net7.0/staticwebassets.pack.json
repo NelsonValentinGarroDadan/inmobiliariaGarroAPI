@@ -57,6 +57,70 @@
       "PackagePath": "staticwebassets\\Uploads\\imagen_27.jpg"
     },
     {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_28.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_28.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_29.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_29.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_30.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_30.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_31.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_31.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_32.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_32.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_33.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_33.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_34.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_34.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_35.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_35.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_36.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_36.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_37.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_37.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_38.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_38.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_39.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_39.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_40.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_40.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_41.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_41.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_42.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_42.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_43.webp",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_43.webp"
+    },
+    {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.inmobiliariaGarroAPI.props",
       "PackagePath": "build\\inmobiliariaGarroAPI.props"
     },

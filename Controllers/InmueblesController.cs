@@ -90,7 +90,6 @@ namespace inmobiliariaGarroAPI;
 		{
 			try
 			{
-				Console.WriteLine("Llego");
 				var u = User.Identity.Name;
 				var usuarioId = Convert.ToInt32(u);
 				var propietario = contexto.Propietarios.Include(prop=> prop.Persona).First(p => p.Id == usuarioId);
@@ -134,7 +133,11 @@ namespace inmobiliariaGarroAPI;
 			try
 			{
 				var usuarioId = Convert.ToInt32(User.Identity.Name);
-				var i = contexto.Inmuebles.FirstOrDefault(inm => inm.Id == inmueble.Id && inm.Propietario.Id == inmueble.Propietario.Id);
+				var i = contexto.Inmuebles
+						.Where(inm => inm.Id == inmueble.Id && inm.Propietario.Id == usuarioId)
+						.Include(i => i.Propietario)
+							.ThenInclude(p => p.Persona)
+						.FirstOrDefault();
 				if(i == null) return NotFound();
 				i.Disponible = inmueble.Disponible;
 
