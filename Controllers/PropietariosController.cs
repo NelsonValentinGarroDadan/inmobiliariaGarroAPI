@@ -36,7 +36,8 @@ namespace inmobiliariaGarroAPI;
 			try
 			{
 				var usuario = User.Identity.Name;
-				var propietario = contexto.Propietarios.Include(p => p.Persona).FirstOrDefault(p => p.Id+"" == usuario);
+				var usuarioId = Convert.ToInt32(usuario);
+				var propietario = contexto.Propietarios.Include(p => p.Persona).FirstOrDefault(p => p.Id == usuarioId);
 				
              	return Ok(propietario);
 			}

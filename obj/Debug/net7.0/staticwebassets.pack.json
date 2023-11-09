@@ -121,6 +121,10 @@
       "PackagePath": "staticwebassets\\Uploads\\imagen_43.webp"
     },
     {
+      "Id": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_44.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\imagen_44.jpg"
+    },
+    {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.inmobiliariaGarroAPI.props",
       "PackagePath": "build\\inmobiliariaGarroAPI.props"
     },

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "LugtHx7YpUEH5pUcHBzpIl2D/s6IvofXH/mRHdkyagc=",
+  "Hash": "vmJ/HNCJ4oBJJX+9N2Ge1okX59NI0Aco8pfn0Rk76r8=",
   "Source": "inmobiliariaGarroAPI",
   "BasePath": "_content/inmobiliariaGarroAPI",
   "Mode": "Default",
@@ -525,6 +525,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\imagen_43.webp"
+    },
+    {
+      "Identity": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\Uploads\\imagen_44.jpg",
+      "SourceId": "inmobiliariaGarroAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Usuario\\Documents\\GitHub\\inmobiliariaGarroAPI\\wwwroot\\",
+      "BasePath": "_content/inmobiliariaGarroAPI",
+      "RelativePath": "Uploads/imagen_44.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\imagen_44.jpg"
     }
   ]
 }

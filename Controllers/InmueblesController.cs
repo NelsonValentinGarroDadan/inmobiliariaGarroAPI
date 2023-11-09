@@ -38,19 +38,6 @@ namespace inmobiliariaGarroAPI;
 				var usuario = User.Identity.Name;
 				var usuarioId = Convert.ToInt32(usuario);
 				var propiedades = contexto.Inmuebles
-					.Select(i => new {
-						Id = i.Id,
-						Direccion = i.Direccion,
-						CAmbientes = i.CAmbientes,
-						Tipo = i.Tipo,
-						Uso = i.Uso,
-						Disponible = i.Disponible,
-						Imagen = i.Imagen,
-						Precio = i.Precio,
-						PropietarioId = i.PropietarioId,
-						Propietario = i.Propietario
-
-					})
 					.Where(i => i.PropietarioId == usuarioId)
 					.ToList();
 				return Ok(propiedades);
